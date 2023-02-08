@@ -1,17 +1,26 @@
 package oop;
 
-public class ParkingAssistant {
-    private ParkingLot parkingLot;
+import java.util.ArrayList;
 
-    public ParkingAssistant(ParkingLot parkingLot) {
-        this.parkingLot = parkingLot;
+public class ParkingAssistant {
+    private ArrayList<ParkingLot> parkingLotList;
+
+    public ParkingAssistant(ArrayList<ParkingLot> parkingLotList) {
+        this.parkingLotList = parkingLotList;
     }
 
     public void executeCarParking(Car car) {
-        parkingLot.parkTheCar(car);
+        for (ParkingLot parkingLot : parkingLotList ) {
+            parkingLot.parkTheCar(car);
+            break;
+        }
     }
 
     public Car executeRetrieveCarByNumber(String carNumber) {
-        return parkingLot.retrieveTheCarByNumber(carNumber);
+        for (ParkingLot parkingLot : parkingLotList ) {
+            return parkingLot.retrieveTheCarByNumber(carNumber);
+        }
+
+        return null;
     }
 }

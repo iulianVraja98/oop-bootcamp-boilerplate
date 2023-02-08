@@ -27,4 +27,3 @@ public class ParkingLot {
 
 }
 
-//    I hired an assistant to park and retrieve cars
