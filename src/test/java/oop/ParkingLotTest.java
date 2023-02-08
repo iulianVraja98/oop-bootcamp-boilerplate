@@ -1,7 +1,8 @@
 package oop;
 
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,8 @@ public class ParkingLotTest {
     private ParkingLot parkingLot1;
     private ParkingLot parkingLot2;
     private ArrayList<ParkingLot> parkingLots;
-    @BeforeTest
+
+    @BeforeEach
     public void init() {
         parkingLots = new ArrayList<>();
 
@@ -53,5 +55,29 @@ public class ParkingLotTest {
 
         assertEquals(parkingLot1.getNumberOfCars(), 1);
         assertEquals(parkingLot2.getNumberOfCars(), 0);
+    }
+
+    @Test
+    public void itShouldBeEnoughCapacity() {
+        ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
+
+        for (int numberOfCar = 1; numberOfCar <= 7; numberOfCar++) {
+            parkingAssistant.executeCarParking(new Car("" + numberOfCar));
+        }
+
+        assertEquals(parkingLot1.haveEnoughCapacity(), true);
+
+    }
+
+    @Test
+    public void itShouldNotBeEnoughCapacity() {
+        ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
+
+        for (int numberOfCar = 1; numberOfCar <= 8; numberOfCar++) {
+            parkingAssistant.executeCarParking(new Car("" + numberOfCar));
+        }
+
+        assertEquals(parkingLot1.haveEnoughCapacity(), false);
+
     }
 }

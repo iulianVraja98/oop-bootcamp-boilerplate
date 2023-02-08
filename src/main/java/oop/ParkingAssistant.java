@@ -11,8 +11,9 @@ public class ParkingAssistant {
 
     public void executeCarParking(Car car) {
         for (ParkingLot parkingLot : parkingLotList ) {
-            parkingLot.parkTheCar(car);
-            break;
+            if(parkingLot.parkTheCar(car)) {
+                break;
+            }
         }
     }
 
