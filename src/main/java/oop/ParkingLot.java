@@ -6,15 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingLot {
-
     private List<Car> carList = new ArrayList<>();
     private static final int CAPACITY = 10;
 
-    private PropertyChangeSupport support;
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public ParkingLot(PropertyChangeSupport support) {
-        this.support = support;
-    }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
@@ -24,18 +20,24 @@ public class ParkingLot {
         support.removePropertyChangeListener(pcl);
     }
 
-    public void setFull() {
-        support.firePropertyChange("allMostFullCapacity", null, "You need to buy more land");
+    public void setFull(String newValue) {
+        support.firePropertyChange("news", null, newValue);
     }
 
     private boolean isCapacityMoreThan75Percent() {
         return carList.size() > CAPACITY * 75 / 100;
     }
 
+    private boolean isCapacityLessThan20Percent() {
+        return carList.size() < CAPACITY * 20 / 100;
+    }
+
     public boolean parkTheCar(Car car) {
         if (haveEnoughCapacity()) {
             carList.add(car);
-            if(isCapacityMoreThan75Percent()) setFull();
+            if (isCapacityMoreThan75Percent()) {
+                setFull("Buy more land!");
+            }
             return true;
         }
         return false;
@@ -45,6 +47,9 @@ public class ParkingLot {
         for (Car car : carList) {
             if (car.getCarNumber().equals(carNumber)) {
                 carList.remove(car);
+                if (isCapacityLessThan20Percent()) {
+                    setFull("Close down some parking slots");
+                }
                 return car;
             }
         }

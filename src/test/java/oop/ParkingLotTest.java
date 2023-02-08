@@ -95,4 +95,24 @@ public class ParkingLotTest {
         assertEquals(parkingLot1.getNumberOfCars(), 8);
         assertEquals(parkingLot2.getNumberOfCars(), 1);
     }
+
+    @Test
+    public void itShouldShowAMessage(){
+
+        ParkingLot observable = new ParkingLot();
+        ParkingLotObserver observer = new ParkingLotObserver();
+        observable.addPropertyChangeListener(observer);
+
+        for (int numberOfCar = 1; numberOfCar <= 8; numberOfCar++) {
+            observable.parkTheCar(new Car("" + numberOfCar));
+        }
+
+        assertEquals(observer.getNews(), "Buy more land!");
+
+        for (int numberOfCar = 1; numberOfCar <= 7; numberOfCar++) {
+            observable.retrieveTheCarByNumber("" + numberOfCar);
+        }
+
+        assertEquals(observer.getNews(), "Close down some parking slots");
+    }
 }
