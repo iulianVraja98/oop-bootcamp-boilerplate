@@ -9,8 +9,10 @@ public class ParkingLotTest {
     @Test
     public void itShouldParkACar() {
         ParkingLot parkingLot = new ParkingLot();
+        ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLot);
         Car car = new Car("random8109");
-        parkingLot.parkTheCar(car);
+
+        parkingAssistant.executeCarParking(car);
 
         assertEquals(parkingLot.getNumberOfCars(), 1);
     }
@@ -18,10 +20,11 @@ public class ParkingLotTest {
     @Test
     public void itShouldRetrieveACar() {
         ParkingLot parkingLot = new ParkingLot();
+        ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLot);
         Car car = new Car("random8109");
-        parkingLot.parkTheCar(car);
+        parkingAssistant.executeCarParking(car);
 
-        Car actualCar = parkingLot.retrieveTheCarByNumber("random8109");
+        Car actualCar = parkingAssistant.executeRetrieveCarByNumber("random8109");
 
         assertEquals(parkingLot.getNumberOfCars(), 0);
         assertEquals(actualCar.getCarNumber(), "random8109");

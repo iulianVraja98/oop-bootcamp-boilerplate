@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ParkingLot {
 
-    List<Car> carList = new ArrayList<>();
+    private List<Car> carList = new ArrayList<>();
 
     public void parkTheCar(Car car) {
         carList.add(car);
@@ -26,3 +26,5 @@ public class ParkingLot {
     }
 
 }
+
+//    I hired an assistant to park and retrieve cars
