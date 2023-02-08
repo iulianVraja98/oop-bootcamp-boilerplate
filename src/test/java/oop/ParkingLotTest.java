@@ -80,4 +80,19 @@ public class ParkingLotTest {
         assertEquals(parkingLot1.haveEnoughCapacity(), false);
 
     }
+
+    @Test
+    public void itShouldParkingToSecondFreeParkingLot() {
+        ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
+        for (int numberOfCar = 1; numberOfCar <= 8; numberOfCar++) {
+            parkingAssistant.executeCarParking(new Car("" + numberOfCar));
+        }
+
+        Car car = new Car("random8109");
+
+        parkingAssistant.executeCarParking(car);
+
+        assertEquals(parkingLot1.getNumberOfCars(), 8);
+        assertEquals(parkingLot2.getNumberOfCars(), 1);
+    }
 }
