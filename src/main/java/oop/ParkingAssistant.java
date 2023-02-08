@@ -10,15 +10,15 @@ public class ParkingAssistant {
     }
 
     public void executeCarParking(Car car) {
-        for (ParkingLot parkingLot : parkingLotList ) {
-            if(parkingLot.parkTheCar(car)) {
+        for (ParkingLot parkingLot : parkingLotList) {
+            if (parkingLot.parkTheCar(car)) {
                 break;
             }
         }
     }
 
     public Car executeRetrieveCarByNumber(String carNumber) {
-        for (ParkingLot parkingLot : parkingLotList ) {
+        for (ParkingLot parkingLot : parkingLotList) {
             return parkingLot.retrieveTheCarByNumber(carNumber);
         }
 
