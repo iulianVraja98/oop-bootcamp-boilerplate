@@ -28,9 +28,9 @@ public class ParkingLotTest {
     @Test
     public void itShouldParkACar() {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
-        Car car = new Car("random8109", "small");
+        Car car = new Car("random8109");
 
-        parkingAssistant.executeCarParking(car);
+        parkingAssistant.parkCar(car);
 
         assertEquals(parkingLot1.getNumberOfCars(), 1);
     }
@@ -38,8 +38,8 @@ public class ParkingLotTest {
     @Test
     public void itShouldRetrieveACar() {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
-        Car car = new Car("random8109", "small");
-        parkingAssistant.executeCarParking(car);
+        Car car = new Car("random8109");
+        parkingAssistant.parkCar(car);
 
         Car actualCar = parkingAssistant.executeRetrieveCarByNumber("random8109");
 
@@ -49,9 +49,9 @@ public class ParkingLotTest {
     @Test
     public void itShouldParkingToAFirstFreeParkingLot() {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
-        Car car = new Car("random8109", "small");
+        Car car = new Car("random8109");
 
-        parkingAssistant.executeCarParking(car);
+        parkingAssistant.parkCar(car);
 
         assertEquals(parkingLot1.getNumberOfCars(), 1);
         assertEquals(parkingLot2.getNumberOfCars(), 0);
@@ -62,7 +62,7 @@ public class ParkingLotTest {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
 
         for (int numberOfCar = 1; numberOfCar <= 7; numberOfCar++) {
-            parkingAssistant.executeCarParking(new Car("" + numberOfCar, "small"));
+            parkingAssistant.parkCar(new Car("" + numberOfCar));
         }
 
         assertEquals(parkingLot1.haveEnoughCapacity(), true);
@@ -74,7 +74,7 @@ public class ParkingLotTest {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
 
         for (int numberOfCar = 1; numberOfCar <= 8; numberOfCar++) {
-            parkingAssistant.executeCarParking(new Car("" + numberOfCar, "small"));
+            parkingAssistant.parkCar(new Car("" + numberOfCar));
         }
 
         assertEquals(parkingLot1.haveEnoughCapacity(), false);
@@ -85,12 +85,12 @@ public class ParkingLotTest {
     public void itShouldParkingToSecondFreeParkingLot() {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
         for (int numberOfCar = 1; numberOfCar <= 8; numberOfCar++) {
-            parkingAssistant.executeCarParking(new Car("" + numberOfCar, "small"));
+            parkingAssistant.parkCar(new Car("" + numberOfCar));
         }
 
-        Car car = new Car("random8109", "small");
+        Car car = new Car("random8109");
 
-        parkingAssistant.executeCarParking(car);
+        parkingAssistant.parkCar(car);
 
         assertEquals(parkingLot1.getNumberOfCars(), 8);
         assertEquals(parkingLot2.getNumberOfCars(), 1);
@@ -104,7 +104,7 @@ public class ParkingLotTest {
         observable.addPropertyChangeListener(observer);
 
         for (int numberOfCar = 1; numberOfCar <= 8; numberOfCar++) {
-            observable.park(new Car("" + numberOfCar, "small"));
+            observable.park(new Car("" + numberOfCar));
         }
 
         assertEquals(observer.getNews(), "Buy more land!");
@@ -119,16 +119,16 @@ public class ParkingLotTest {
     @Test
     public void itShouldParkLargeCarInParkingLotWithLeastUsage() {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
-        Car car = new Car("1", "small");
-        Car car1 = new Car("1", "small");
+        Car car = new Car("1");
+        Car car1 = new Car("1");
         parkingLot1.park(car);
         parkingLot1.park(car1);
 
-        Car car2 = new Car("1", "small");
+        Car car2 = new Car("1");
         parkingLot2.park(car2);
 
 
-        parkingAssistant.executeCarParking(new Car("1", "large"));
+        parkingAssistant.parkCar(new Car("1", true));
 
         assertEquals(parkingLot2.getNumberOfCars(), 2);
     }
@@ -136,21 +136,44 @@ public class ParkingLotTest {
     @Test
     public void itShouldParkHandicappedCarInFirstParkingLotThatAcceptIt() {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
-        Car car = new Car("1", "small");
-        Car car1 = new Car("1", "small");
+        Car car = new Car("1");
+        Car car1 = new Car("1");
         parkingLot1.park(car);
         parkingLot1.park(car1);
 
-        Car car2 = new Car("1", "small");
+        Car car2 = new Car("1");
         parkingLot2.park(car2);
 
 
         parkingLot1.setAcceptingHandicappedCars(false);
         parkingLot2.setAcceptingHandicappedCars(true);
 
-        parkingAssistant.executeCarParking(new Car("1", "small", true));
+        parkingAssistant.parkCar(new Car("1", false, true));
 
         assertEquals(parkingLot2.getNumberOfCars(), 2);
     }
+
+    @Test
+    public void itShouldNotParkFancyCarsIfAssistantIsNotCertified() {
+        ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
+        parkingAssistant.setCertified(false);
+        Car car = new Car("1", false, false, true);
+        parkingAssistant.parkCar(car);
+
+        assertEquals(parkingLot1.getNumberOfCars(), 0);
+        assertEquals(parkingLot2.getNumberOfCars(), 0);
+    }
+
+    @Test
+    public void itShouldParkFancyCarsIfAssistantIsCertified() {
+        ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
+        parkingAssistant.setCertified(true);
+        Car car = new Car("1", false, false, true);
+        parkingAssistant.parkCar(car);
+
+        assertEquals(parkingLot1.getNumberOfCars(), 1);
+        assertEquals(parkingLot2.getNumberOfCars(), 0);
+    }
+
 
 }

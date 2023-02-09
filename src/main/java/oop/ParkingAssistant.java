@@ -4,48 +4,18 @@ import java.util.ArrayList;
 
 public class ParkingAssistant {
     private ArrayList<ParkingLot> parkingLotList;
+    private CarParkingStrategy carParking;
+    private boolean certified = false;
 
     public ParkingAssistant(ArrayList<ParkingLot> parkingLotList) {
         this.parkingLotList = parkingLotList;
     }
 
-    public void executeCarParking(Car car) {
-
-        if (car.getSize().equals("small")) {
-            for (ParkingLot parkingLot : parkingLotList) {
-                if (!car.isHandicapped()) {
-                    if (parkingLot.park(car)) {
-                        break;
-                    }
-                } else {
-                    if (parkingLot.getAcceptingHandicappedCars()) {
-                        if (parkingLot.park(car)) {
-                            break;
-                        }
-                    }
-                }
-            }
-        } else {
-            ParkingLot minParkingLot = minOf(parkingLotList.get(0), parkingLotList.get(1));
-            for (ParkingLot parkingLot : parkingLotList) {
-                if (!car.isHandicapped()) {
-                    minParkingLot = minOf(minParkingLot, parkingLot);
-                } else {
-                    if (minOf(minParkingLot, parkingLot).getAcceptingHandicappedCars()) {
-                        minParkingLot = minOf(minParkingLot, parkingLot);
-                    }
-                }
-            }
-            minParkingLot.park(car);
+    public void parkCar(Car car) {
+        if (!car.isFancy() || this.certified) {
+            CarParkingStrategy carParkingStrategy = car.chooseCarParkingStrategy();
+            carParkingStrategy.park(car, parkingLotList);
         }
-    }
-
-    public ParkingLot minOf(ParkingLot parkingLot1, ParkingLot parkingLot2) {
-        if (parkingLot1.getNumberOfCars() > parkingLot2.getNumberOfCars()) {
-            return parkingLot2;
-        }
-        return parkingLot1;
-
     }
 
     public Car executeRetrieveCarByNumber(String carNumber) {
@@ -54,5 +24,9 @@ public class ParkingAssistant {
         }
 
         return null;
+    }
+
+    public void setCertified(boolean certified) {
+        this.certified = certified;
     }
 }
