@@ -10,6 +10,7 @@ public class ParkingLot {
     private static final int CAPACITY = 10;
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private boolean acceptingHandicappedCars = false;
 
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -21,7 +22,7 @@ public class ParkingLot {
         support.firePropertyChange("news", null, newValue);
     }
 
-    public boolean parkTheCar(Car car) {
+    public boolean park(Car car) {
         if (haveEnoughCapacity()) {
             carList.add(car);
             if (isCapacityMoreThan75Percent()) {
@@ -32,7 +33,7 @@ public class ParkingLot {
         return false;
     }
 
-    public Car retrieveTheCarByNumber(String carNumber) {
+    public Car retrieveTheCarBy(String carNumber) {
         for (Car car : carList) {
             if (car.getCarNumber().equals(carNumber)) {
                 carList.remove(car);
@@ -60,9 +61,17 @@ public class ParkingLot {
     private boolean isCapacityLessThan20Percent() {
         return carList.size() < CAPACITY * 20 / 100;
     }
+
     public int getNumberOfCars() {
         return carList.size();
     }
 
+    public void setAcceptingHandicappedCars(boolean acceptingHandicappedCars) {
+        this.acceptingHandicappedCars = acceptingHandicappedCars;
+    }
+
+    public boolean getAcceptingHandicappedCars() {
+        return this.acceptingHandicappedCars;
+    }
 }
 
