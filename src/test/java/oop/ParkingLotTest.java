@@ -97,7 +97,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void itShouldShowMessage(){
+    public void itShouldShowMessage() {
 
         ParkingLot observable = new ParkingLot();
         ParkingLotObserver observer = new ParkingLotObserver();
@@ -119,38 +119,38 @@ public class ParkingLotTest {
     @Test
     public void itShouldParkLargeCarInParkingLotWithLeastUsage() {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
-        Car car=new Car("1","small");
-        Car car1=new Car("1","small");
+        Car car = new Car("1", "small");
+        Car car1 = new Car("1", "small");
         parkingLot1.park(car);
         parkingLot1.park(car1);
 
-        Car car2=new Car("1","small");
+        Car car2 = new Car("1", "small");
         parkingLot2.park(car2);
 
 
-        parkingAssistant.executeCarParking(new Car("1","large"));
+        parkingAssistant.executeCarParking(new Car("1", "large"));
 
-        assertEquals(parkingLot2.getNumberOfCars(),2);
+        assertEquals(parkingLot2.getNumberOfCars(), 2);
     }
 
     @Test
     public void itShouldParkHandicappedCarInFirstParkingLotThatAcceptIt() {
         ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
-        Car car=new Car("1","small");
-        Car car1=new Car("1","small");
+        Car car = new Car("1", "small");
+        Car car1 = new Car("1", "small");
         parkingLot1.park(car);
         parkingLot1.park(car1);
 
-        Car car2=new Car("1","small");
+        Car car2 = new Car("1", "small");
         parkingLot2.park(car2);
 
 
         parkingLot1.setAcceptingHandicappedCars(false);
         parkingLot2.setAcceptingHandicappedCars(true);
 
-        parkingAssistant.executeCarParking(new Car("1","small",true));
+        parkingAssistant.executeCarParking(new Car("1", "small", true));
 
-        assertEquals(parkingLot2.getNumberOfCars(),2);
+        assertEquals(parkingLot2.getNumberOfCars(), 2);
     }
 
 }
