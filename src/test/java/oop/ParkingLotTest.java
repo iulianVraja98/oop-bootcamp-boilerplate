@@ -97,7 +97,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void itShouldShowAMessage(){
+    public void itShouldShowMessage(){
 
         ParkingLot observable = new ParkingLot();
         ParkingLotObserver observer = new ParkingLotObserver();

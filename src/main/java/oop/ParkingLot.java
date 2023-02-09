@@ -16,20 +16,9 @@ public class ParkingLot {
         support.addPropertyChangeListener(pcl);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        support.removePropertyChangeListener(pcl);
-    }
 
     public void setFull(String newValue) {
         support.firePropertyChange("news", null, newValue);
-    }
-
-    private boolean isCapacityMoreThan75Percent() {
-        return carList.size() > CAPACITY * 75 / 100;
-    }
-
-    private boolean isCapacityLessThan20Percent() {
-        return carList.size() < CAPACITY * 20 / 100;
     }
 
     public boolean parkTheCar(Car car) {
@@ -64,6 +53,13 @@ public class ParkingLot {
         return true;
     }
 
+    private boolean isCapacityMoreThan75Percent() {
+        return carList.size() > CAPACITY * 75 / 100;
+    }
+
+    private boolean isCapacityLessThan20Percent() {
+        return carList.size() < CAPACITY * 20 / 100;
+    }
     public int getNumberOfCars() {
         return carList.size();
     }
