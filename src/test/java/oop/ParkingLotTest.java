@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
@@ -173,6 +174,23 @@ public class ParkingLotTest {
 
         assertEquals(parkingLot1.getNumberOfCars(), 1);
         assertEquals(parkingLot2.getNumberOfCars(), 0);
+    }
+
+    @Test
+    public void itShouldDelegateParkingLotsToAnotherAssistants() {
+        ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLots);
+
+        ParkingAssistant assistant = parkingAssistant.hireAssistant(List.of(parkingLot1));
+
+        Car car = new Car("1", false, false, false);
+
+        assistant.parkCar(car);
+        assertEquals(parkingLot1.getNumberOfCars(), 1);
+        assertEquals(parkingLot2.getNumberOfCars(), 0);
+
+        Car car2 = new Car("2", false, false, false);
+        parkingAssistant.parkCar(car2);
+        assertEquals(parkingLot2.getNumberOfCars(), 1);
     }
 
 

@@ -6,11 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingLot {
+    private static int id;
     private List<Car> carList = new ArrayList<>();
     private static final int CAPACITY = 10;
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private boolean acceptingHandicappedCars = false;
+
+    public ParkingLot(){
+        id++;
+    }
 
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -72,6 +77,10 @@ public class ParkingLot {
 
     public boolean getAcceptingHandicappedCars() {
         return this.acceptingHandicappedCars;
+    }
+
+    public int getId() {
+        return id;
     }
 }
 

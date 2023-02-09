@@ -1,13 +1,15 @@
 package oop;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ParkingAssistant {
-    private ArrayList<ParkingLot> parkingLotList;
-    private CarParkingStrategy carParking;
+    private List<ParkingLot> parkingLotList;
+
+    private List<ParkingAssistant> parkingAssistantList = new ArrayList<>();
     private boolean certified = false;
 
-    public ParkingAssistant(ArrayList<ParkingLot> parkingLotList) {
+    public ParkingAssistant(List<ParkingLot> parkingLotList) {
         this.parkingLotList = parkingLotList;
     }
 
@@ -28,5 +30,18 @@ public class ParkingAssistant {
 
     public void setCertified(boolean certified) {
         this.certified = certified;
+    }
+
+    public ParkingAssistant hireAssistant(List<ParkingLot> parkingLot1) {
+        ParkingAssistant parkingAssistant = new ParkingAssistant(parkingLot1);
+        for (ParkingLot parkingLot : parkingLot1) {
+            for (ParkingLot parkingLotAssistant : parkingLotList) {
+                if (parkingLot.getId() == parkingLotAssistant.getId()) {
+                    parkingLotList.remove(parkingLotAssistant);
+                }
+            }
+        }
+        parkingAssistantList.add(parkingAssistant);
+        return parkingAssistant;
     }
 }
